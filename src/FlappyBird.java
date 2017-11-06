@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,13 +25,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
         rand = new Random();
 
         jFrame.add(renderer);
-        jFrame.setVisible(true);
         jFrame.setTitle("Flappy Bird!");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize(WIDHT, HEIGHT);
         jFrame.addMouseListener(this);
         jFrame.addKeyListener(this);
         jFrame.setResizable(false);
+        jFrame.setVisible(true);
 
         bird = new Rectangle(WIDHT / 2 - 10, HEIGHT / 2 - 10, 20, 20);
         columns = new ArrayList<>();
@@ -146,7 +147,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
         renderer.repaint();
     }
 
-    public void repaint(Graphics g) {
+    public void repaint(Graphics g2g) {
+        BufferedImage bufferedImage = new BufferedImage(WIDHT, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bufferedImage.createGraphics();
+        //********************************************
         g.setColor(Color.BLUE.darker());
         g.fillRect(0,0, WIDHT, HEIGHT);
 
@@ -177,6 +181,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
         if (!gameOver && started) {
             g.drawString(String.valueOf(score), WIDHT / 2 - 25, 100);
         }
+        //*******************************************
+        Graphics2D g2dComponent = (Graphics2D) g2g;
+        g2dComponent.drawImage(bufferedImage, null, 0, 0);
     }
 
     public static void main(String[] args) {
